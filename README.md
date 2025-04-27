@@ -1,86 +1,42 @@
-MyHashTable and BST Implementation
-This project implements:
+# MyHashTable and BST Implementation
 
-A custom Hash Table (MyHashTable) with chaining (Linked List) for collision handling.
+## MyHashTable<K, V>
 
-A Binary Search Tree (BST) without using recursion.
+Custom Hash Table implementation using chaining with linked lists.
 
-Both implementations avoid using Java’s built-in libraries for hash tables or trees, following all requirements.
+### Features:
+- Generic key-value storage: `<K, V>`.
+- Collision handling via linked list (`HashNode<K, V>`).
+- Methods implemented:
+  - `void put(K key, V value)`
+  - `V get(K key)`
+  - `V remove(K key)`
+  - `boolean contains(V value)`
+  - `K getKey(V value)`
+- Custom `hash(K key)` method (no `Objects.hash()` or similar).
+- Default bucket size: `11`.
+- Dynamic size tracking.
 
-MyHashTable Features
-Supports generic key-value pairs (K, V).
+### Testing:
+- Created `MyTestingClass`:
+  - Implements custom `hashCode()` method.
+  - Ensures uniform hash distribution.
+- Inserted `10,000` random elements.
+- Printed the number of elements per bucket.
 
-Collision resolution through chaining (linked lists).
-
-Custom HashNode internal class.
-
-Basic operations:
-
-put(K key, V value)
-
-get(K key)
-
-remove(K key)
-
-contains(V value)
-
-getKey(V value)
-
-Custom hashing function (no Objects.hash() used).
-
-Testing with 10,000 random elements and bucket load distribution.
-
-Example Test Class
-A MyTestingClass was created to:
-
-Provide a custom hashCode() method.
-
-Ensure uniform distribution of elements across buckets.
-
-Binary Search Tree (BST) Features
-Supports generic keys (K extends Comparable<K>) and values (V).
-
-Internal Node class holds key-value pairs.
-
-Operations:
-
-put(K key, V val)
-
-get(K key)
-
-delete(K key)
-
-iterator() for in-order traversal (non-recursive).
-
-Added a size attribute to track the number of elements.
-
-During iteration, both key and value can be accessed.
-
-Example Usage
-java
-Копировать
-Редактировать
-for (var elem : bst) {
-    System.out.println("key is " + elem.getKey() + " and value is " + elem.getValue());
+### Example Test:
+```java
+MyHashTable<MyTestingClass, Student> table = new MyHashTable<>();
+for (int i = 0; i < 10000; i++) {
+    table.put(new MyTestingClass(...), new Student(...));
 }
-How to Run
-Compile all .java files:
-
-bash
-Копировать
-Редактировать
-javac *.java
-Run your test class containing main():
-
-bash
-Копировать
-Редактировать
-java Main
-Notes
-No recursion used in BST.
-
-No Objects.hash() or similar utilities allowed in MyHashTable.
-
-Focused on manual data structure implementation and understanding core logic.
-
-Clean and optimized hashing for minimizing collisions.
+// Printing number of elements in each bucket
+for (int i = 0; i < 11; i++) {
+    int count = 0;
+    var head = table.getChainArray()[i];
+    while (head != null) {
+        count++;
+        head = head.next;
+    }
+    System.out.println("Bucket " + i + ": " + count + " elements");
+}
